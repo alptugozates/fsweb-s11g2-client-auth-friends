@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 
 export default function LoginForm({ setCheck }) {
     const history = useHistory();
+    const location = useLocation();
+    console.log("location", location)
     const {
         register,
         handleSubmit,
@@ -24,7 +27,9 @@ export default function LoginForm({ setCheck }) {
             .then((res) => {
                 localStorage.setItem("s11g2", res.data.token);
                 setCheck(true);
-                history.push("/friends");
+                if (location.state.refferer) {
+                    history.push(location.state.refferer)
+                }
             })
             .catch((err) => console.log(err));
     };
